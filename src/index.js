@@ -2,7 +2,7 @@ import POSTagger from 'wink-pos-tagger'
 import lexicon from './data/shavian-lexicon'
 import { abbreviations, namingDot } from './mapping'
 
-export function fixSpacing(text) {
+function fixSpacing(text) {
   return text
     .replace(/ ([.…,!?\//—:’”)}\]])/g, '$1')
     .replace(/([\//—‘“({\[]) /g, '$1')
@@ -39,5 +39,7 @@ function transliterate(english = '') {
 
   return fixSpacing(transliterated.join(' '))
 }
+
+transliterate.fixSpacing = fixSpacing
 
 export default transliterate
