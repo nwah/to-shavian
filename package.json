@@ -1,0 +1,46 @@
+{
+  "name": "to-shavian",
+  "version": "0.0.1",
+  "description": "Transliterate English into the Shavian (Shaw) Alphabet",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "jest",
+    "build-lexicon": "node src/build-lexicon.js",
+    "build": "NODE_ENV=production rollup -c"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/nwah/to-shavian.git"
+  },
+  "keywords": [
+    "shavian",
+    "shaw",
+    "alphabet",
+    "transliterate",
+    "translate",
+    "english",
+    "spelling"
+  ],
+  "author": "Noah Burney",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nwah/to-shavian/issues"
+  },
+  "homepage": "https://github.com/nwah/to-shavian#readme",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-jest": "^23.0.0",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
+    "jest": "^23.0.0",
+    "jest-cli": "^23.0.0",
+    "lodash": "^4.17.10",
+    "rollup": "^0.59.3",
+    "rollup-plugin-commonjs": "^9.1.3",
+    "rollup-plugin-json": "^3.0.0",
+    "rollup-plugin-node-resolve": "^3.3.0",
+    "rollup-pluginutils": "^2.3.0",
+    "wink-pos-tagger": "^1.5.0"
+  },
+  "dependencies": {}
+}

@@ -1,0 +1,10 @@
+{
+  "ignore": [
+    "node_modules/**"
+  ],
+  "env": {
+    "test": {
+      "plugins": ["transform-es2015-modules-commonjs"]
+    }
+  }
+}
