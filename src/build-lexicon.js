@@ -1,6 +1,6 @@
 const fs = require('fs')
 const path = require('path')
-const { uniqBy, sortBy } = require('lodash/fp')
+const { groupBy, map, get } = require('lodash/fp')
 const { ipa2shaw } = require('./mapping')
 
 const islePath = path.join(__dirname, 'data', 'ISLEDict.txt')
@@ -69,8 +69,27 @@ function generateShawLexicon(dictionary) {
 
   for (let headword in dictionary) {
     const variants = dictionary[headword].map(entryToShavian)
-    const unique = uniqBy(([word, ppos]) => sortBy(x => x, ppos).join(','), variants)
-    lexicon[headword] = variants
+    const byPOS = groupBy(([shaw, ppos]) => ppos.slice().sort().join(','), variants)
+    
+    for (let pos in byPOS) {
+      const alternates = byPOS[pos]
+      if (alternates.length <= 1) continue
+      const sorted = alternates.sort((a, b) => {
+        // prefer /w/ over /hw/
+        const aHasHW = a[0].includes('𐑣𐑢')
+        const bHasHW = b[0].includes('𐑣𐑢')
+        if (aHasHW || bHasHW) {
+          return aHasHW && !bHasHW ? 1 : !aHasHW && bHasHW ? -1 : 0
+        }
+        
+        // otherwise, prefer longer version as it's less likely to be the
+        // "fast speech" version
+        return a[0].length > b[0].length ? -1 : a[0].length > b[0].length ? 1 : 0
+      })
+      byPOS[pos] = sorted
+    }
+
+    lexicon[headword] = map(get(0), byPOS)
   }
 
   return lexicon
