@@ -19,7 +19,7 @@ function importISLEDict() {
 
   lines.forEach(line => {
     // Skip blank lines, or lines that start with #
-    if (/^#?\s*$/.test(line)) return
+    if (/^#|^\s*$/.test(line)) return
 
     const [entry, ...rest] = line.split(/\s+/)
     const [headword, tagString] = entry.replace(/\)$/, '').split('(')
