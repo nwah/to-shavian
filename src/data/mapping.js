@@ -7,7 +7,7 @@ const abbreviations = {
 
 const namingDot = '·'
 
-const ipa2shaw = {
+const consonants = {
   'p': '𐑐',
   'b': '𐑚',
   'd': '𐑛',
@@ -35,6 +35,9 @@ const ipa2shaw = {
   'm': '𐑥',
   'n': '𐑯',
   'n̩': '𐑩𐑯',
+}
+
+const vowels = {
   'ɪ': '𐑦',
   'i': '𐑰',
   'iː': '𐑰',
@@ -56,10 +59,15 @@ const ipa2shaw = {
   'ɑː': '𐑭',
   'ɔ': '𐑷',
   'ɔː': '𐑷',
+  'ei': '𐑱',
+  'iə': '𐑾',
+  'ju': '𐑿',
+}
+
+const rColored = {
   'ɑɹ': '𐑸',
   'ɑːɹ': '𐑸',
   'ɔɹ': '𐑹',
-  'ei': '𐑱',
   'ɔəɹ': '𐑹',
   'ɛəɹ': '𐑺',
   'ɛɹ': '𐑺',
@@ -69,10 +77,17 @@ const ipa2shaw = {
   'əɹ': '𐑼',
   'ɪɹ': '𐑽',
   'ɪəɹ': '𐑽',
-  'iə': '𐑾',
-  'ju': '𐑿',
+}
+
+const ipa2shaw = {
+  ...consonants,
+  ...vowels,
+  ...rColored,
 }
 
 exports.ipa2shaw = ipa2shaw
+exports.consonants = consonants
+exports.vowels = vowels
+exports.rColored = rColored
 exports.abbreviations = abbreviations
 exports.namingDot = namingDot

@@ -40,8 +40,9 @@ function generateShawLexicon(dictionary) {
   const lexicon = Object.create(null)
   const mapping = getOrderedMapping()
 
-  const normalizePPOS = ppos =>
-    ppos.filter(pos => !/^\+|^root:|\d$/.test(pos))
+  const normalizePPOS = ppos => ppos
+    .filter(pos => !/^\+|^root:/.test(pos))
+    .map(pos => pos.replace(/_\d+\.\d+$/, ''))
 
   const wordToShavian = syllabes => syllabes.map(phones => {
     const syllable = phones.join('').replace(ipaIgnore, '')
