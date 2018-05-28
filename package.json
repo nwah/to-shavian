@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest",
     "build-lexicon": "node src/build-lexicon.js",
-    "build": "NODE_ENV=production rollup -c"
+    "build": "NODE_ENV=production node --max-old-space-size=8192 node_modules/rollup/bin/rollup -c rollup.config.js"
   },
   "repository": {
     "type": "git",
