@@ -50,7 +50,9 @@ function isName(entity) {
   if (!/^NN/i.test(entity.pos)) return false
   const tags = variants[0][1]
   // match nnp_girlname, nnp_city, etc
-  return tags.some(tag => /^nnp_/.test(tag))
+  const hasNnp = tags.some(tag => /^nnp_/.test(tag))
+  const hasOthers = tags.includes('nn') || tags.includes('jj') || tags.some(tag => /^vb_/.test(tag))
+  return hasNnp && (!hasOthers || /^[A-Z]/.test(entity.value))
 }
 
 function transliterateEntity(entity) {
