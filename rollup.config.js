@@ -13,7 +13,6 @@ export default {
     resolve(),
     commonjs({
       sourceMap: false,
-      exclude: ['src/**']
     }),
   ]
 }

@@ -40,5 +40,6 @@ function transliterate(english = '') {
   return fixSpacing(transliterated.join(' '))
 }
 
+transliterate.fixSpacing = fixSpacing
+
 module.exports = transliterate
-module.exports.fixSpacing = fixSpacing
