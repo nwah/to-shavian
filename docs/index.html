@@ -1,0 +1,129 @@
+---
+title: to-shavian Demo
+---
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>to-shavian — Transliterate English to Shavian</title>
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans" rel="stylesheet">
+    <link href="//fonts.googleapis.com/earlyaccess/notosansshavian.css" rel="stylesheet" />
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        font-family: 'Noto Sans', sans-serif;
+        line-height: 24px;
+      }
+      a {
+        color: #006AE5;
+        text-decoration: none;
+      }
+      h1 {
+        margin: 0 0 .5rem;
+      }
+      h3, p {
+        margin: 1.5rem 0;
+      }
+      .shavian {
+        font-family: 'Noto Sans Shavian', sans-serif;
+        font-size: 1.1em;
+      }
+      .wrapper {
+        margin: 60px auto;
+        max-width: 980px;
+      }
+      section {
+        display: flex;
+      }
+      textarea {
+        display: block;
+        width: 100%;
+        font-size: inherit;
+        line-height: inherit;
+        padding: 1rem;
+      }
+      .intro {
+        padding-top: 1rem;
+      }
+      .left {
+        flex: 5;
+        margin-right: 30px;
+      }
+      .right {
+        flex: 4;
+      }
+      .gh-link {
+        font-size: 14px;
+      }
+      pre {
+        display: block;
+        padding: 1rem;
+        background: #f5f5f5;
+      }
+    </style>
+    <script src="https://unpkg.com/to-shavian@0.1.0/dist/index.js"></script>
+  </head>
+  <body>
+    <div class="wrapper">
+      <section>
+        <div class="left">
+          <h1>to-shavian</h1>
+          <a class="gh-link" href="https://github.com/nwah/to-shavian">View on GitHub</a>
+        </div>
+        <div class="right shavian">
+          <h1>𐑑-𐑖𐑱𐑝𐑰𐑩𐑯</h1>
+          <a class="gh-link" href="https://github.com/nwah/to-shavian">𐑝𐑿 𐑭𐑯 ·𐑜𐑦𐑑𐑣𐑩𐑚</a>
+        </div>
+      </section>
+      
+      <section class="intro">
+        <div class="left">
+          <p>This is a JavaScript library for transliterating English text to the <a href="https://en.wikipedia.org/wiki/Shavian_alphabet">Shavian (Shaw) alphabet</a>.</p>
+        </div>
+        <div class="right shavian">
+          <p>𐑞𐑦𐑕 𐑦𐑟 𐑱 ·𐑡𐑭𐑝𐑩𐑕𐑒𐑮𐑦𐑐𐑑 𐑤𐑲𐑚𐑮𐑧𐑮𐑰 𐑓𐑸 𐑑𐑮𐑨𐑯𐑟𐑤𐑦𐑑𐑩𐑮𐑱𐑑𐑦𐑙 ·𐑦𐑙𐑜𐑤𐑦𐑖 𐑑𐑧𐑒𐑕𐑑 𐑑 𐑞 <a href="https://en.wikipedia.org/wiki/Shavian_alphabet">·𐑖𐑱𐑝𐑰𐑩𐑯 (·𐑖𐑭) 𐑨𐑤𐑓𐑩𐑚𐑧𐑑</a>.</p>
+        </div>
+      </section>
+
+      <section class="demo">
+        <div class="left">
+          <h3>Try it</h3>
+          <textarea rows="5" id="input" placeholder="Enter some English text here…"></textarea>
+        </div>
+        <div class="right shavian">
+          <h3>𐑑𐑮𐑲 𐑦𐑑</h3>
+          <textarea rows="5" id="output" readonly placeholder="𐑧𐑯𐑼 𐑕𐑩𐑥 𐑦𐑙𐑜𐑤𐑦𐑖 𐑑𐑧𐑒𐑕𐑑 𐑣𐑰𐑮…"></textarea>
+        </div>
+      </section>
+
+      <section>
+        <div class="left">
+          <h3>Usage</h3>
+          <pre><code>$ npm install to-shavian</code></pre>
+          <pre><code>const toShavian = require('to-shavian')
+toShavian('Hello!')
+//-> "𐑣𐑩𐑤𐑴!"</code></pre>
+        </div>
+        <div class="right">
+          <h3>𐑿𐑕𐑦𐑡</h3>
+          <pre><code>$ npm install to-shavian</code></pre>
+          <pre><code>const toShavian = require('to-shavian')
+toShavian('Hello!')
+//-> "𐑣𐑩𐑤𐑴!"</code></pre>
+        </div>
+      </section>
+    </div>
+
+    <script>
+      var input = document.getElementById('input')
+      var output = document.getElementById('output')
+
+      input.addEventListener('input', function() {
+        output.value = toShavian(input.value)
+      })
+    </script>
+  </body>
+</html>
