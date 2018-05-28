@@ -73,8 +73,6 @@ const ipa2shaw = {
   'ju': '𐑿',
 }
 
-export {
-  ipa2shaw,
-  abbreviations,
-  namingDot,
-}
+exports.ipa2shaw = ipa2shaw
+exports.abbreviations = abbreviations
+exports.namingDot = namingDot

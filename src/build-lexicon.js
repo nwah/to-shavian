@@ -2,7 +2,8 @@ const fs = require('fs')
 const path = require('path')
 const { uniqBy, sortBy } = require('lodash/fp')
 const { ipa2shaw } = require('./mapping')
-const islex = require('./data/islex.json')
+
+const islePath = path.join(__dirname, 'data', 'ISLEDict.txt')
 
 function getOrderedMapping() {
   const patterns = Object.keys(ipa2shaw)
@@ -11,7 +12,30 @@ function getOrderedMapping() {
     .map(pattern => [pattern, ipa2shaw[pattern]])
 }
 
-function generateShawLexicon() {
+function importISLEDict() {
+  const data = fs.readFileSync(islePath, 'utf8')
+  const lines = data.split('\n')
+  const lexicon = Object.create(null)
+
+  lines.forEach(line => {
+    // Skip blank lines, or lines that start with #
+    if (/^#?\s*$/.test(line)) return
+
+    const [entry, ...rest] = line.split(/\s+/)
+    const [headword, tagString] = entry.replace(/\)$/, '').split('(')
+    const tags = tagString ? (tagString || '').split(/,/) : []
+    const pronunciation = rest.slice(1, -1).join(' ').split(' # ')
+      .map(word => {
+        const syllables = word.split(' . ')
+        return syllables.map(syllable => syllable.split(' '))
+      })
+    lexicon[headword] = lexicon[headword] || []
+    lexicon[headword].push([tags, pronunciation])
+  })
+  return lexicon
+}
+
+function generateShawLexicon(dictionary) {
   const ipaIgnore = /[ˈˌ˺]/g
   const lexicon = Object.create(null)
   const mapping = getOrderedMapping()
@@ -43,8 +67,8 @@ function generateShawLexicon() {
     normalizePPOS(ppos),
   ]
 
-  for (let headword in islex) {
-    const variants = islex[headword].map(entryToShavian)
+  for (let headword in dictionary) {
+    const variants = dictionary[headword].map(entryToShavian)
     const unique = uniqBy(([word, ppos]) => sortBy(x => x, ppos).join(','), variants)
     lexicon[headword] = variants
   }
@@ -52,8 +76,9 @@ function generateShawLexicon() {
   return lexicon
 }
 
-const lexicon = generateShawLexicon()
+const isle = importISLEDict()
+const lexicon = generateShawLexicon(isle)
 const json = JSON.stringify(lexicon)
-const jsSource = 'export default ' + json
+const jsSource = 'module.exports = ' + json
 
 fs.writeFileSync(path.join(__dirname, 'data', 'shavian-lexicon.js'), jsSource, 'utf8')

@@ -1,6 +1,6 @@
-import POSTagger from 'wink-pos-tagger'
-import lexicon from './data/shavian-lexicon'
-import { abbreviations, namingDot } from './mapping'
+const POSTagger = require('wink-pos-tagger')
+const lexicon = require('./data/shavian-lexicon')
+const { abbreviations, namingDot } = require('./mapping')
 
 function fixSpacing(text) {
   return text
@@ -40,6 +40,5 @@ function transliterate(english = '') {
   return fixSpacing(transliterated.join(' '))
 }
 
-transliterate.fixSpacing = fixSpacing
-
-export default transliterate
+module.exports = transliterate
+module.exports.fixSpacing = fixSpacing
