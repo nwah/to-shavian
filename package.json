@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "scripts": {
     "test": "jest",
-    "build-lexicon": "node src/build-lexicon.js",
+    "build-lexicon": "node src/tools/build-lexicon.js",
     "build": "NODE_ENV=production node --max-old-space-size=8192 node_modules/rollup/bin/rollup -c rollup.config.js"
   },
   "repository": {
