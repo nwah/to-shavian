@@ -99,6 +99,6 @@ function generateShawLexicon(dictionary) {
 const isle = importISLEDict()
 const lexicon = generateShawLexicon(isle)
 const json = JSON.stringify(lexicon)
-const jsSource = 'module.exports = ' + json
+const jsSource = 'module.exports = JSON.parse(' + JSON.stringify(json) + ');'
 
 fs.writeFileSync(path.join(__dirname, '..', 'data', 'shavian-lexicon.js'), jsSource, 'utf8')
