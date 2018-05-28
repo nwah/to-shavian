@@ -1,6 +1,9 @@
 # to-shavian
 Transliterate English into the Shavian (Shaw) Alphabet
 
+## Demo
+[View a live demo](https://nwah.github.io/to-shavian/)
+
 ## Installation
 ```sh
 $ npm install --save to-shavian
