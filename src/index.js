@@ -1,6 +1,6 @@
 const POSTagger = require('wink-pos-tagger')
 const lexicon = require('./data/shavian-lexicon')
-const { abbreviations, namingDot } = require('./mapping')
+const { abbreviations, namingDot } = require('./data/mapping')
 
 function fixSpacing(text) {
   return text

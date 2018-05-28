@@ -1,9 +1,9 @@
 const fs = require('fs')
 const path = require('path')
 const { groupBy, map, get } = require('lodash/fp')
-const { ipa2shaw } = require('./mapping')
+const { ipa2shaw } = require('../data/mapping')
 
-const islePath = path.join(__dirname, 'data', 'ISLEDict.txt')
+const islePath = path.join(__dirname, '..', 'data', 'ISLEDict.txt')
 
 function getOrderedMapping() {
   const patterns = Object.keys(ipa2shaw)
@@ -100,4 +100,4 @@ const lexicon = generateShawLexicon(isle)
 const json = JSON.stringify(lexicon)
 const jsSource = 'module.exports = ' + json
 
-fs.writeFileSync(path.join(__dirname, 'data', 'shavian-lexicon.js'), jsSource, 'utf8')
+fs.writeFileSync(path.join(__dirname, '..', 'data', 'shavian-lexicon.js'), jsSource, 'utf8')
