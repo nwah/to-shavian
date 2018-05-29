@@ -44,6 +44,13 @@ function guessPronunciation(entity) {
   return entity.value
 }
 
+function getPossessive(entity, previous) {
+  const prevShaw = transliterateEntity(previous)
+  return prevShaw.slice(-2) === '𐑑'
+    ? '𐑕'
+    : '𐑟'
+}
+
 function isName(entity) {
   const variants = lexicon[entity.normal]
   if (!variants) return false
@@ -55,7 +62,13 @@ function isName(entity) {
   return hasNnp && (!hasOthers || /^[A-Z]/.test(entity.value))
 }
 
-function transliterateEntity(entity) {
+function normalizeApostrophes(english) {
+  return english
+    .replace(/’(s\W|$)/ig, (match, group) => `'${group}`)
+    .replace(/s'(\W|$)/ig, (match, group) => `s’${group}`)
+}
+
+function transliterateEntity(entity, i, entities) {
   const variants = lexicon[entity.normal]
 
   if (entity.normal in abbreviations) {
@@ -64,6 +77,14 @@ function transliterateEntity(entity) {
   
   if (entity.tag === 'punctuation') {
     return entity.value
+  }
+
+  if (i > 0 && /['’]s$/.test(entity.normal)) {
+    return '’' + getPossessive(entity, entities[i - 1])
+  }
+
+  if (i > 1 && entity.normal === 's' && /^['’]$/.test(entities[i - 1].normal)) {
+    return getPossessive(entity, entities[i - 2])
   }
 
   if (!variants) {
@@ -88,7 +109,8 @@ function transliterateEntity(entity) {
 function transliterate(english = '') {
   // TODO: Preserve original whitespace?
   const tagger = new POSTagger()
-  const entities = tagger.tagSentence(english)
+  const normalized = normalizeApostrophes(english)
+  const entities = tagger.tagSentence(normalized)
 
   const transliterated = entities.map(transliterateEntity)
 
