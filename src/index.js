@@ -5,6 +5,10 @@ const { abbreviations, namingDot, consonants } = require('./data/mapping')
 
 const shawConsonants = values(consonants)
 const shawNasals = ['𐑙', '𐑥', '𐑯']
+const shawFricatives = ['𐑓', '𐑝', '𐑕', '𐑟', '𐑔', '𐑞', '𐑖', '𐑠']
+const shawAffricates = ['𐑗', '𐑡']
+const voiced = ['𐑚', '𐑛', '𐑜', '𐑝', '𐑞', '𐑟', '𐑠', '𐑡']
+const unvoiced = ['𐑐', '𐑑', '𐑒', '𐑓', '𐑔', '𐑕', '𐑖', '𐑗']
 
 function fixSpacing(text) {
   return text
@@ -14,23 +18,40 @@ function fixSpacing(text) {
     .replace(/␉/g, '\t')
 }
 
-function guessPronunciation(entity) {
-  // build -ing words from lemma
-  if (entity.pos === 'VBG' && entity.lemma in lexicon) {
-    const base = transliterateEntity({ ...entity, normal: entity.lemma, value: entity.lemma})
-    return `${base}𐑦𐑙`
-  }
+function getFinalSSound(base) {
+  const last = base.slice(-2) // shaw characters are 2-wide
+  return (
+    ['𐑕', '𐑟', '𐑖', '𐑠', '𐑗', '𐑡'].includes(last) ? '𐑦𐑟'
+    : unvoiced.includes(last) ? '𐑕'
+    : '𐑟'
+  )
+}
 
-  // build -ed words from lemma
-  if (entity.pos === 'VBD' && entity.lemma in lexicon && /ed$/.test(entity.normal)) {
-    const base = transliterateEntity({ ...entity, normal: entity.lemma, value: entity.lemma })
-    const last = base.slice(-2) // shaw characters are 2-wide
-    const ending =
-      (last === '𐑛' || last === '𐑑') ? '𐑦𐑛'
-      : shawNasals.includes(last) ? '𐑛'
-      : shawConsonants.includes(last) ? '𐑑'
-      : '𐑛'
-    return `${base}${ending}`
+function guessPronunciation(entity) {
+  if (entity.lemma in lexicon) {
+    const base = transliterateEntity({ ...entity, normal: entity.lemma, value: entity.lemma})
+
+    // build -ing words from lemma
+    if (entity.pos === 'VBG') {
+      return `${base}𐑦𐑙`
+    }
+
+    // build -ed words from lemma
+    if (entity.pos === 'VBD' && /ed$/.test(entity.normal)) {
+      const last = base.slice(-2) // shaw characters are 2-wide
+      const ending =
+        (last === '𐑛' || last === '𐑑') ? '𐑦𐑛'
+        : shawNasals.includes(last) ? '𐑛'
+        : shawConsonants.includes(last) ? '𐑑'
+        : '𐑛'
+      return `${base}${ending}`
+    }
+
+    // build -(e)s words from lemma
+    if ((entity.pos === 'NNS' || entity.pos === 'VBZ') && /s$/.test(entity.normal)) {
+      const ending = getFinalSSound(base)
+      return `${base}${ending}`
+    }
   }
 
   // guess CamelCased words based on individual pieces
@@ -46,9 +67,7 @@ function guessPronunciation(entity) {
 
 function getPossessive(entity, previous) {
   const prevShaw = transliterateEntity(previous)
-  return prevShaw.slice(-2) === '𐑑'
-    ? '𐑕'
-    : '𐑟'
+  return getFinalSSound(prevShaw)
 }
 
 function isName(entity) {
