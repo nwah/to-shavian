@@ -1,6 +1,6 @@
 {
   "name": "to-shavian",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Transliterate English into the Shavian (Shaw) Alphabet",
   "main": "dist/index.js",
   "scripts": {
