@@ -85,9 +85,11 @@ const ipa2shaw = {
   ...rColored,
 }
 
-exports.ipa2shaw = ipa2shaw
-exports.consonants = consonants
-exports.vowels = vowels
-exports.rColored = rColored
-exports.abbreviations = abbreviations
-exports.namingDot = namingDot
+export {
+  ipa2shaw,
+  consonants,
+  vowels,
+  rColored,
+  abbreviations,
+  namingDot,
+}

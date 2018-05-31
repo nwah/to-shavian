@@ -1,7 +1,7 @@
-const POSTagger = require('wink-pos-tagger')
-const { values } = require('lodash/fp')
-const lexicon = require('./data/shavian-lexicon')
-const { abbreviations, namingDot, consonants } = require('./data/mapping')
+import POSTagger from 'wink-pos-tagger'
+import { values } from 'lodash/fp'
+import lexicon from './data/shavian-lexicon'
+import { abbreviations, namingDot, consonants } from './data/mapping'
 
 const shawConsonants = values(consonants)
 const shawNasals = ['𐑙', '𐑥', '𐑯']
@@ -138,4 +138,4 @@ function transliterate(english = '') {
 
 transliterate.fixSpacing = fixSpacing
 
-module.exports = transliterate
+export default transliterate
